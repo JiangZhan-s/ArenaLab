@@ -1,0 +1,730 @@
+[
+  {
+    "name": "move_right",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 1,
+      "dy": 0,
+      "player": 0,
+      "kind": "move"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 1,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 1,
+      "ply": 1,
+      "version": 2,
+      "finished": false,
+      "winner": -1
+    },
+    "error": ""
+  },
+  {
+    "name": "pass",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 1,
+      "ply": 1,
+      "version": 2,
+      "finished": false,
+      "winner": -1
+    },
+    "error": ""
+  },
+  {
+    "name": "out_of_turn",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 1,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "not_turn"
+  },
+  {
+    "name": "out_of_bounds",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": -1,
+      "dy": 0,
+      "player": 0,
+      "kind": "move"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "illegal_move"
+  },
+  {
+    "name": "diagonal",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 1,
+      "dy": 1,
+      "player": 0,
+      "kind": "move"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "invalid_action"
+  },
+  {
+    "name": "remote_attack",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "attack"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "not_adjacent"
+  },
+  {
+    "name": "occupied",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 1,
+      "dy": 0,
+      "player": 0,
+      "kind": "move"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "illegal_move"
+  },
+  {
+    "name": "hit",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "attack"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        2
+      ],
+      "turn": 1,
+      "ply": 1,
+      "version": 2,
+      "finished": false,
+      "winner": -1
+    },
+    "error": ""
+  },
+  {
+    "name": "lethal",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        1
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "attack"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 1,
+          "y": 0
+        }
+      ],
+      "hp": [
+        3,
+        0
+      ],
+      "turn": 0,
+      "ply": 1,
+      "version": 2,
+      "finished": true,
+      "winner": 0
+    },
+    "error": ""
+  },
+  {
+    "name": "forty_draw",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 39,
+      "version": 40,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 40,
+      "version": 41,
+      "finished": true,
+      "winner": -1
+    },
+    "error": ""
+  },
+  {
+    "name": "forty_hp",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        1,
+        2
+      ],
+      "turn": 0,
+      "ply": 39,
+      "version": 40,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        1,
+        2
+      ],
+      "turn": 0,
+      "ply": 40,
+      "version": 41,
+      "finished": true,
+      "winner": 1
+    },
+    "error": ""
+  },
+  {
+    "name": "finished_reject",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": true,
+      "winner": 0
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": true,
+      "winner": 0
+    },
+    "error": "finished"
+  },
+  {
+    "name": "unknown_action",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 0,
+      "dy": 0,
+      "player": 0,
+      "kind": "win"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "invalid_action"
+  },
+  {
+    "name": "pass_nonzero_delta",
+    "before": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "action": {
+      "dx": 1,
+      "dy": 0,
+      "player": 0,
+      "kind": "pass"
+    },
+    "after": {
+      "positions": [
+        {
+          "x": 0,
+          "y": 0
+        },
+        {
+          "x": 4,
+          "y": 4
+        }
+      ],
+      "hp": [
+        3,
+        3
+      ],
+      "turn": 0,
+      "ply": 0,
+      "version": 1,
+      "finished": false,
+      "winner": -1
+    },
+    "error": "invalid_action"
+  }
+]

@@ -1,0 +1,29 @@
+{
+  "lab": "00",
+  "status": "not_implemented",
+  "invariants": [
+    "I04",
+    "I07",
+    "I08",
+    "I09"
+  ],
+  "faults": [],
+  "command": "go run ./cmd/course gate 00",
+  "scenario": "客户端上报胜利→断网→重新登录→重放行动，逐步标记已知与未知事实。",
+  "required_result": "四张转移表一致；12条不变量均有一个反例和未来测试；十个序列有允许终态。",
+  "deliverables": [
+    "docs/state-machines.md",
+    "docs/invariants.md",
+    "docs/failure-model.md"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

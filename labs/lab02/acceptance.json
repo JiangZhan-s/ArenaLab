@@ -1,0 +1,32 @@
+{
+  "lab": "02",
+  "status": "not_implemented",
+  "invariants": [
+    "I05",
+    "I12"
+  ],
+  "faults": [
+    "G06"
+  ],
+  "command": "go run ./cmd/course gate 02",
+  "scenario": "暂停旧连接命令，创建新epoch，再恢复旧命令；发送超大帧和错误房间ID。",
+  "required_result": "旧epoch拒绝；跨玩家越权拒绝；坏帧不导致panic；连接退出无残留协程。",
+  "deliverables": [
+    "internal/protocol/",
+    "internal/auth/",
+    "internal/session/",
+    "cmd/arena-server/",
+    "cmd/bot-client/",
+    "test/security/session_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

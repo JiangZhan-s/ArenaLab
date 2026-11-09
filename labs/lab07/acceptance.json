@@ -1,0 +1,33 @@
+{
+  "lab": "07",
+  "status": "not_implemented",
+  "invariants": [
+    "I03",
+    "I06",
+    "I07"
+  ],
+  "faults": [
+    "G11",
+    "G12",
+    "G13"
+  ],
+  "command": "go run ./cmd/course gate 07",
+  "scenario": "A持旧epoch，B已提交下一步；A恢复尝试写及发延迟广播。",
+  "required_result": "旧owner不能提交；数据库不可达不ACK；新owner加载一致；超时仅推进当前一回合。",
+  "deliverables": [
+    "internal/ownership/",
+    "internal/recovery/",
+    "db/migrations/000003_ownership.sql",
+    "test/process/owner_takeover_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

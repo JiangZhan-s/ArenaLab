@@ -1,0 +1,30 @@
+{
+  "lab": "01",
+  "status": "not_implemented",
+  "invariants": [
+    "I05",
+    "I08",
+    "I09"
+  ],
+  "faults": [
+    "G01"
+  ],
+  "command": "go test -tags=acceptance ./test/acceptance/rules -count=1",
+  "scenario": "当前玩家越界、攻击远处敌人；第40步同时击杀；终局再次动作。",
+  "required_result": "固定用例全部通过；非法动作无副作用；终局和40回合边界有测试。",
+  "deliverables": [
+    "internal/rules/rules.go",
+    "internal/rules/replay_test.go",
+    "cmd/replay/main.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "provided_red_until_implemented"
+}

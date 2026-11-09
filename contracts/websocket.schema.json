@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ArenaLab v1 action envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "match_id",
+    "command_id",
+    "session_epoch",
+    "expected_state_version",
+    "action"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": 1
+    },
+    "match_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "session_epoch": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "expected_state_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "dx",
+        "dy"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "move",
+            "attack",
+            "pass"
+          ]
+        },
+        "dx": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "dy": {
+          "type": "integer",
+          "minimum": -1,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}

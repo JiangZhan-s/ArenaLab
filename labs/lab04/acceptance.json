@@ -1,0 +1,34 @@
+{
+  "lab": "04",
+  "status": "not_implemented",
+  "invariants": [
+    "I04",
+    "I06",
+    "I07"
+  ],
+  "faults": [
+    "G02",
+    "G04",
+    "G05",
+    "G12"
+  ],
+  "command": "go run ./cmd/course gate 04",
+  "scenario": "同command20次，异payload复用ID；kill后重启并查询持久化事实。",
+  "required_result": "三个事实原子一致；commit后重试不再行动；commit前不返回committed；deadline相等拒绝。",
+  "deliverables": [
+    "db/migrations/000001_match.sql",
+    "internal/persistence/",
+    "test/integration/command_test.go",
+    "test/process/action_crash_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

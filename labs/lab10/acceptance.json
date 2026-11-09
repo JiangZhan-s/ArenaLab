@@ -1,0 +1,32 @@
+{
+  "lab": "10",
+  "status": "not_implemented",
+  "invariants": [
+    "I06",
+    "I07",
+    "I09"
+  ],
+  "faults": [
+    "G16",
+    "G17"
+  ],
+  "command": "go run ./cmd/course gate 10",
+  "scenario": "drain与分配竞争；新版代码读取旧局；快照损坏；备份恢复后对账。",
+  "required_result": "无新分配落到draining；旧局可解释；恢复库通过事实核对；报告RPO/RTO测量。",
+  "deliverables": [
+    "internal/lifecycle/",
+    "docs/runbooks/release.md",
+    "docs/runbooks/restore.md",
+    "test/process/drain_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

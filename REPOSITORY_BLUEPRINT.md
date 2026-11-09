@@ -2,7 +2,7 @@
 
 ## 建议新仓库
 
-仓库名称 ArenaLab，远端为 https://github.com/JiangZhan-s/ArenaLab 。保留 OrderGuard 历史，避免在同一仓库中混用两套领域模型。当前提交为课程规划，后续按本文蓝图建设实验骨架。
+仓库名称 ArenaLab，远端为 https://github.com/JiangZhan-s/ArenaLab 。本文保留目标布局；当前课程骨架已经建立，实际文件与待实现边界见 docs/REPOSITORY_MAP.md 和 docs/COURSE_STATUS.md。清单采用 JSON 以便 Go 标准库校验。
 
 ```text
 arenalab/

@@ -1,0 +1,30 @@
+{
+  "lab": "09",
+  "status": "not_implemented",
+  "invariants": [
+    "I12"
+  ],
+  "faults": [
+    "G07",
+    "G18"
+  ],
+  "command": "go run ./cmd/course gate 09",
+  "scenario": "连接数相同，分别空闲/活跃；数据库延迟增长；重连同时爆发。",
+  "required_result": "报告offered/completed/rejected、p99、队列/内存/DB等待；过载后可恢复；不变量仍成立。",
+  "deliverables": [
+    "loadtest/",
+    "internal/observability/",
+    "docs/experiments/capacity.md",
+    "test/load/overload_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

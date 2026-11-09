@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "labs": [
+    {
+      "id": "00",
+      "title": "模型与业务承诺",
+      "path": "labs/lab00",
+      "depends_on": []
+    },
+    {
+      "id": "01",
+      "title": "规则引擎与重放",
+      "path": "labs/lab01",
+      "depends_on": [
+        "00"
+      ]
+    },
+    {
+      "id": "02",
+      "title": "会话与WebSocket协议",
+      "path": "labs/lab02",
+      "depends_on": [
+        "01"
+      ]
+    },
+    {
+      "id": "03",
+      "title": "房间循环与资源隔离",
+      "path": "labs/lab03",
+      "depends_on": [
+        "02"
+      ]
+    },
+    {
+      "id": "04",
+      "title": "事务、ACK与幂等",
+      "path": "labs/lab04",
+      "depends_on": [
+        "03"
+      ]
+    },
+    {
+      "id": "05",
+      "title": "匹配与唯一分配",
+      "path": "labs/lab05",
+      "depends_on": [
+        "04"
+      ]
+    },
+    {
+      "id": "06",
+      "title": "重连与状态同步",
+      "path": "labs/lab06",
+      "depends_on": [
+        "05"
+      ]
+    },
+    {
+      "id": "07",
+      "title": "所有权与战局恢复",
+      "path": "labs/lab07",
+      "depends_on": [
+        "06"
+      ]
+    },
+    {
+      "id": "08",
+      "title": "终局、积分与排行榜",
+      "path": "labs/lab08",
+      "depends_on": [
+        "07"
+      ]
+    },
+    {
+      "id": "09",
+      "title": "负载与排障",
+      "path": "labs/lab09",
+      "depends_on": [
+        "08"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "发布、版本与数据恢复",
+      "path": "labs/lab10",
+      "depends_on": [
+        "09"
+      ]
+    },
+    {
+      "id": "11",
+      "title": "综合事故与面试交付",
+      "path": "labs/lab11",
+      "depends_on": [
+        "10"
+      ]
+    }
+  ]
+}

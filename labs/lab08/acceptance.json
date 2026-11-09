@@ -1,0 +1,33 @@
+{
+  "lab": "08",
+  "status": "not_implemented",
+  "invariants": [
+    "I09",
+    "I10",
+    "I11"
+  ],
+  "faults": [
+    "G14",
+    "G15"
+  ],
+  "command": "go run ./cmd/course gate 08",
+  "scenario": "积分事务提交后确认前kill；20次投递；清空测试Redis后重建。",
+  "required_result": "每人每局一次流水；汇总等于流水；abort不计分；Redis丢失不改变事实。",
+  "deliverables": [
+    "internal/settlement/",
+    "internal/leaderboard/",
+    "cmd/settlement-worker/",
+    "db/migrations/000004_settlement.sql",
+    "test/process/settlement_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

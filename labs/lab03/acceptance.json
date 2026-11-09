@@ -1,0 +1,30 @@
+{
+  "lab": "03",
+  "status": "not_implemented",
+  "invariants": [
+    "I05",
+    "I12"
+  ],
+  "faults": [
+    "G03",
+    "G07"
+  ],
+  "command": "go run ./cmd/course gate 03",
+  "scenario": "同时投递同version两行动；一玩家停止读socket并持续产生广播。",
+  "required_result": "最多一个同版本行动有效；所有队列有上限；另一房间可继续；退出测试有期限。",
+  "deliverables": [
+    "internal/room/",
+    "test/concurrency/room_test.go",
+    "test/integration/slow_reader_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

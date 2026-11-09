@@ -1,0 +1,8 @@
+.env
+.env.*
+!.env.example
+/bin/
+/artifacts/raw/
+*.exe
+*.test
+*.out

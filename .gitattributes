@@ -1,2 +1,7 @@
 * text=auto
 *.md text eol=lf
+*.go text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+go.mod text eol=lf
+Makefile text eol=lf

@@ -1,0 +1,57 @@
+{
+  "lab": "11",
+  "status": "not_implemented",
+  "invariants": [
+    "I01",
+    "I02",
+    "I03",
+    "I04",
+    "I05",
+    "I06",
+    "I07",
+    "I08",
+    "I09",
+    "I10",
+    "I11",
+    "I12"
+  ],
+  "faults": [
+    "G01",
+    "G02",
+    "G03",
+    "G04",
+    "G05",
+    "G06",
+    "G07",
+    "G08",
+    "G09",
+    "G10",
+    "G11",
+    "G12",
+    "G13",
+    "G14",
+    "G15",
+    "G16",
+    "G17",
+    "G18"
+  ],
+  "command": "go run ./cmd/course gate 11",
+  "scenario": "匹配完成→行动提交后断连→重连→owner接管→终局重复结算。",
+  "required_result": "玩家终态一致、无重复积分、证据可重现；能闭卷定位事务与故障窗口。",
+  "deliverables": [
+    "test/process/capstone_test.go",
+    "docs/experiments/final.md",
+    "docs/postmortems/capstone.md",
+    "learning/lab11/exit-review.md"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

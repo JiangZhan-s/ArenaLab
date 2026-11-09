@@ -1,0 +1,31 @@
+{
+  "lab": "05",
+  "status": "not_implemented",
+  "invariants": [
+    "I01",
+    "I02"
+  ],
+  "faults": [
+    "G08",
+    "G09"
+  ],
+  "command": "go run ./cmd/course gate 05",
+  "scenario": "两个matcher同时选择同一人；取消与分配同时提交；连接在返回assignment前断开。",
+  "required_result": "无重复占用；取消/分配唯一赢家；已分配结果可查；极端积分玩家等待有报告。",
+  "deliverables": [
+    "internal/matchmaking/",
+    "db/migrations/000002_matchmaking.sql",
+    "test/concurrency/matchmaking_test.go",
+    "loadtest/matchmaking/"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}

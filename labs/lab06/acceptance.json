@@ -1,0 +1,30 @@
+{
+  "lab": "06",
+  "status": "not_implemented",
+  "invariants": [
+    "I04",
+    "I06",
+    "I07"
+  ],
+  "faults": [
+    "G10"
+  ],
+  "command": "go run ./cmd/course gate 06",
+  "scenario": "客户端停在v3，服务到v8，清理v4，再重连；乱序广播v8/v7。",
+  "required_result": "客户端不应用不连续增量；快照后终态hash一致；跨房间拒绝；重试无额外行动。",
+  "deliverables": [
+    "internal/recovery/resync.go",
+    "cmd/bot-client/",
+    "test/integration/resync_test.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "command",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "automatic_runner": "to_be_built_in_lab"
+}
