@@ -1,16 +1,16 @@
 # 最终可运行交付合同
 
-这是课程完成标准，不是当前已经可运行的声明。当前状态见 COURSE_STATUS.md。
+这是个人结业标准；Go 参考版已可运行，实际维护验证见 VALIDATION.md，个人答辩与对照实验不由参考通过替代。
 
 ## 必须实现的产物
 
 | 产物 | 最迟阶段 | 完成定义 |
 |---|---|---|
-| cmd/arena-server + web/turn | Lab11 | 双浏览器可玩，非仅curl返回200 |
+| cmd/arena-server + web/ | Lab11 | 双浏览器可玩，非仅curl返回200 |
 | cmd/testdriver | Lab02开始逐层扩展 | 操作真实客户端和子进程；固定Gate无需修改期望即可执行 |
 | migrations + settlement-worker | Lab08 | 空库可初始化，结果和流水可独立核账 |
 | loadtest + 原始采样 | Lab09 | 开放到达率、失败/超时完整记录，汇总可复算 |
-| web/realtime + internal/realtime | Lab12 | 双客户端可移动、校正可见、20Hz逻辑无逐tick SQL |
+| web/ + internal/reference/realtime | Lab12 | 双客户端可移动、校正可见、20Hz逻辑无逐tick SQL |
 | cmd/ds-sim | Lab13 | 独立进程，ready/health/allocate/ticket/result链路真实 |
 | deploy/compose.yaml + demo脚本 | Lab14 | 新环境按文档启动，无手改数据库、隐藏本地依赖 |
 | integration/unreal | 独立里程碑 | 真UE DS双客户端、票据拒绝、结果和进程故障证据 |

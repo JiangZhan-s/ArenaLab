@@ -25,6 +25,10 @@
 
 `wsl-reference.sh` 自动启动隔离验证库，在 Go 容器中编译 arena/worker/DS，启动测试驱动并按 Lab 顺序验收。Lab00 读 `reference/model.json`，学习版读 `learning/lab00/model.json`；两者不混用。Lab01 的 14 组规则验收来自固定 fixtures。02–14 的 expected values 只存在判卷器，driver 只接收操作和参数。
 
+脚本的可选逗号列表接受 02–14；00 模型与 01 规则每次必跑。想只跑 00/01，可在安装 Go 后用 `go run -tags reference ./cmd/course gate 00` / `01`；无需安装 Go 的学习者直接使用脚本即可。
+
+维护者完整复验可执行 `bash scripts/clean-room.sh`：从当前已提交版本新 clone 到 WSL ext4 临时目录，运行全部验收、变异、新演示空卷和浏览器核账，并归档原始证据。运行前自行停止本项目演示、释放端口；脚本不会擅自停止其他项目。临时目录不是你的学习仓库，重启 WSL 可能清空它。
+
 ## 手工体验两个模式
 
 打开两个页面 http://localhost:8080，分别选账号 P0/P1 后登录。默认口令是仓库公开的本地开发口令，不是生产认证。

@@ -2,6 +2,8 @@
 
 这份记录属于课程维护，不代表学习者已经完成 Lab。最终可复现命令见 REFERENCE_GUIDE.md；具体未覆盖项见 COVERAGE.md。原始文件位于 artifacts/raw，默认不入 Git。
 
+**最终发布依据：[干净检出证据与真实基线](evidence/reference-2026-11-09.md)**。被测实现 SHA `0e5b8ef48d949dfdf1c42c0a9b34a10915c565ba`，完整 clean-room 退出0，包含 Docker 浏览器与独立 SQL 核账。后续仅补文档摘要。
+
 ## 已执行的参考验证
 
 | 项目 | 结果 | 实际范围 |
@@ -15,6 +17,7 @@
 | 五个变异 | killed 5/5 | 不提交就成功、版本先于幂等、去掉 fencing、结算不幂等、过期票据放行 |
 | 新库 Compose 启动 | passed | 新的 arenalab-fresh 卷初始化，7 服务启动，release 无 testhooks |
 | 原生 Chromium 双页面 | passed | 回合制 version41、DS tick600，重连后终局一致，无页面脚本错误 |
+| 干净检出全流程 | passed | 新 ext4 clone → 全 Gate → 5变异 → 新空卷 → Docker 双浏览器 → SQL 核账 → 原始证据归档 |
 | 真实 Unreal | not_run | Go DS 通过不等于 UE Replication、引擎 DS 或 UE 客户端联调 |
 | 学习者答辩/三组 A/B/第二人复现 | not_run | 留给学习者的个人结业证据，不由维护工作代填 |
 
@@ -28,6 +31,8 @@
 - 新增准备超时清理器最初产生空事务，使 Lab12 SQL commit 断言失败；改为无候选不启动事务，锁内仍重新检查过期条件。没有放宽断言。
 - `/mnt/c` npm 文件损坏：改用 ext4 临时依赖和 Docker node_modules volume，未手改第三方包。
 - WSL 无前台进程自动停止导致后续连接拒绝：增加 `--attach` 使用方式；持久演示卷保留数据。验证库 tmpfs 则按设计丢弃。
+- 后台先启动清理器时，未分配 DS 可能被标记 unhealthy；注册恢复仅限未消费实例，增加真实数据库回归。
+- ext4 上容器产物归 root，导致构建上下文遍历/证据归档失败；脚本归还当前 WSL 用户所有权，最终全流程通过。
 
 ## 不能据此宣称
 
