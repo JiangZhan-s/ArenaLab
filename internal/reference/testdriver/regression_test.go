@@ -65,6 +65,16 @@ func TestExpiryAndConnectionRegressions(t *testing.T) {
 	if err = c.Register(ctx, "expiry-ds", "http://127.0.0.1:1", "ds-v1", "local"); err != nil {
 		t.Fatal(err)
 	}
+	if _, err = d.DB.Exec("UPDATE ds_instances SET status='unhealthy' WHERE id='expiry-ds'"); err != nil {
+		t.Fatal(err)
+	}
+	if err = c.Register(ctx, "expiry-ds", "http://127.0.0.1:1", "ds-v1", "local"); err != nil {
+		t.Fatal(err)
+	}
+	var instanceState string
+	if err = d.DB.QueryRow("SELECT status FROM ds_instances WHERE id='expiry-ds'").Scan(&instanceState); err != nil || instanceState != "ready" {
+		t.Fatalf("idle re-registration=%s %v", instanceState, err)
+	}
 	a, err := c.Allocate(ctx, 0, 0, "expiry-request", "ds-v1", "local")
 	if err != nil || a.Error != "" {
 		t.Fatalf("allocation=%+v err=%v", a, err)

@@ -91,7 +91,10 @@ func (c *Control) Register(ctx context.Context, id, endpoint, build, region stri
 	if id == "" || len(id) > 64 || build == "" || region == "" {
 		return fmt.Errorf("invalid_registration")
 	}
-	_, e := c.Store.DB.ExecContext(ctx, "INSERT INTO ds_instances(id,endpoint,build,region,status,last_seen) VALUES(?,?,?,?,'ready',UTC_TIMESTAMP(6)) ON DUPLICATE KEY UPDATE last_seen=UTC_TIMESTAMP(6)", id, endpoint, build, region)
+	// A never-allocated instance may have been swept unhealthy while the
+	// backend restarted. Registration can revive only that idle identity;
+	// a consumed/active one-shot instance must never silently be recycled.
+	_, e := c.Store.DB.ExecContext(ctx, "INSERT INTO ds_instances(id,endpoint,build,region,status,last_seen) VALUES(?,?,?,?,'ready',UTC_TIMESTAMP(6)) ON DUPLICATE KEY UPDATE status=IF(status='unhealthy' AND NOT EXISTS(SELECT 1 FROM allocations WHERE instance_id=?),'ready',status),last_seen=UTC_TIMESTAMP(6)", id, endpoint, build, region, id)
 	return e
 }
 func (c *Control) Heartbeat(ctx context.Context, id string) error {
@@ -122,8 +125,18 @@ func (c *Control) Allocate(ctx context.Context, player, epoch int, request, buil
 	}
 	defer tx.Rollback()
 	var current int
-	if e = tx.QueryRowContext(ctx, "SELECT epoch FROM players WHERE id=? FOR UPDATE", player).Scan(&current); e != nil {
-		return Allocation{}, e
+	p0 := player - player%2
+	p1 := p0 + 1
+	// Serialize both members in stable ID order, including simultaneous
+	// allocation requests from opposite members of the same local pair.
+	for _, member := range []int{p0, p1} {
+		var memberEpoch int
+		if e = tx.QueryRowContext(ctx, "SELECT epoch FROM players WHERE id=? FOR UPDATE", member).Scan(&memberEpoch); e != nil {
+			return Allocation{}, e
+		}
+		if member == player {
+			current = memberEpoch
+		}
 	}
 	if current != epoch {
 		return fail("stale_session")
@@ -139,8 +152,6 @@ func (c *Control) Allocate(ctx context.Context, player, epoch int, request, buil
 		return Allocation{}, e
 	}
 	// Local demo pairs are explicit: 0/1, 2/3, ... . Production parties need invitations.
-	p0 := player - player%2
-	p1 := p0 + 1
 	var occupied int
 	if e = tx.QueryRowContext(ctx, "SELECT COUNT(*) FROM occupancy WHERE player_id IN (?,?)", p0, p1).Scan(&occupied); e != nil {
 		return Allocation{}, e
