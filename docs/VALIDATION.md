@@ -4,6 +4,8 @@
 
 **最终发布依据：[干净检出证据与真实基线](evidence/reference-2026-11-09.md)**。被测实现 SHA `0e5b8ef48d949dfdf1c42c0a9b34a10915c565ba`，完整 clean-room 退出0，包含 Docker 浏览器与独立 SQL 核账。后续仅补文档摘要。
 
+后续修复：`86878be` 将演示入口改为18080，解决本机Windows保留8080导致的转发失败；同时配置DS Origin。该修复的宿主机HTTP连通性、相关race单测、双浏览器与SQL核账已验证，见 [ADR0006](adr/0006-windows-demo-port.md)。上面的完整clean-room证据仍对应原始基线SHA，不混用版本。
+
 ## 已执行的参考验证
 
 | 项目 | 结果 | 实际范围 |
