@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "labs": [
     {
       "id": "00",
@@ -93,6 +93,30 @@
       "path": "labs/lab11",
       "depends_on": [
         "10"
+      ]
+    },
+    {
+      "id": "12",
+      "title": "实时 tick、输入与校正",
+      "path": "labs/lab12",
+      "depends_on": [
+        "11"
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Dedicated Server 分配与信任边界",
+      "path": "labs/lab13",
+      "depends_on": [
+        "12"
+      ]
+    },
+    {
+      "id": "14",
+      "title": "双模式交付与 UE 接入里程碑",
+      "path": "labs/lab14",
+      "depends_on": [
+        "13"
       ]
     }
   ]

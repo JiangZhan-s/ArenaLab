@@ -1,0 +1,22 @@
+{
+  "lab": "13",
+  "status": "not_implemented",
+  "command": "go run ./cmd/course gate 13",
+  "required_result": "固定场景全部通过；真实服务路径审查、mutation、实验和答辩独立通过",
+  "automatic_runner": "internal/coursegate + fixtures/gates/lab13.json",
+  "deliverables": [
+    "cmd/ds-sim/",
+    "internal/allocation/",
+    "internal/tickets/",
+    "testdriver/dedicated.go"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "scope": "fixed executable scenarios"
+}

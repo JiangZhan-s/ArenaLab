@@ -26,5 +26,5 @@
     "observed_result",
     "limitations"
   ],
-  "automatic_runner": "to_be_built_in_lab"
+  "automatic_runner": "internal/coursegate + fixtures/gates/lab03.json"
 }

@@ -1,0 +1,13 @@
+{
+  "commit": "SYNTHETIC_NOT_A_BENCHMARK",
+  "environment": "format smoke test only",
+  "variant": "synthetic",
+  "seed": 451,
+  "window_ms": 100,
+  "expected_requests": 3,
+  "samples": [
+    {"id":"a","scheduled_ms":0,"finished_ms":10,"outcome":"success"},
+    {"id":"b","scheduled_ms":10,"finished_ms":110,"outcome":"success"},
+    {"id":"c","scheduled_ms":20,"finished_ms":220,"outcome":"timeout"}
+  ]
+}

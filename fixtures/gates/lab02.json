@@ -1,0 +1,129 @@
+{
+  "lab": "02",
+  "cases": [
+    {
+      "name": "unauthorized-and-replacement",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "credential": "invalid"
+          },
+          "want": {
+            "error": "unauthorized"
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "handle": "old"
+          },
+          "want": {
+            "error": "",
+            "epoch": 1
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "handle": "new"
+          },
+          "want": {
+            "error": "",
+            "epoch": 2
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "handle": "old",
+            "command_id": "old1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "stale_session"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "room"
+          },
+          "want": {
+            "version": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "frame-and-origin",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "origin": "https://evil.invalid"
+          },
+          "want": {
+            "error": "origin_denied"
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "handle": "valid"
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "send_frame",
+          "args": {
+            "handle": "valid",
+            "bytes": 1048577
+          },
+          "want": {
+            "closed": true
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "room"
+          },
+          "want": {
+            "version": 1
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "lab": "03",
+  "cases": [
+    {
+      "name": "same-version-concurrency",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "parallel": [
+            {
+              "op": "action",
+              "args": {
+                "player": 0,
+                "command_id": "a",
+                "expected_version": 1,
+                "kind": "pass"
+              },
+              "want": {
+                "classified": true
+              }
+            },
+            {
+              "op": "action",
+              "args": {
+                "player": 0,
+                "command_id": "b",
+                "expected_version": 1,
+                "kind": "pass"
+              },
+              "want": {
+                "classified": true
+              }
+            }
+          ]
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "room"
+          },
+          "want": {
+            "version": 2,
+            "ply": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "slow-reader-and-cleanup",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "slow_reader",
+            "rooms": 20,
+            "commands": 100
+          },
+          "want": {
+            "unexpected_errors": 0,
+            "queue_overflow_policy": "disconnect_or_snapshot_coalesce"
+          },
+          "bounds": {
+            "healthy_completed": {
+              "min": 100,
+              "max": 100
+            },
+            "max_queue_depth": {
+              "min": 1,
+              "max": 64
+            }
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "room_churn",
+            "rooms": 200,
+            "cycles": 5,
+            "settle_seconds": 3
+          },
+          "want": {
+            "live_rooms": 0
+          },
+          "bounds": {
+            "goroutine_delta": {
+              "min": -20,
+              "max": 20
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

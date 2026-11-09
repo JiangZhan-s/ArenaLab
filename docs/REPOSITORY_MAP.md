@@ -10,3 +10,10 @@ cmd/course：课程结构检查与gate入口。02～11的runner需要随Lab建�
 learning：学习者证据；templates：可复制模板；prompts：不同协作角色。
 docs/COURSE_STATUS.md：课程本身的交付边界。
 历史规划中YAML蓝图是建议布局；当前选择JSON来用Go标准库验证，course.json与实际目录为准。
+# 新版增量导航
+
+15 Lab主线以course.json为准；00～11另读execution.md，12～14为实时/独立DS扩展。
+岗位边界：docs/ROLE_FIT.md；扩展规范：contracts/REALTIME_AND_DS.md。
+固定驱动场景：fixtures/gates；运行器：internal/coursegate；量化工具：cmd/measure与internal/measurement。
+运行说明：docs/EXECUTABLE_GATES.md；交付合同：docs/FINAL_DELIVERY.md；工作量与面试证据：docs/MEASUREMENT_AND_INTERVIEW.md。
+

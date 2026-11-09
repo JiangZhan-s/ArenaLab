@@ -1,0 +1,78 @@
+{
+  "lab": "11",
+  "cases": [
+    {
+      "name": "two-real-clients-full-journey",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "empty"
+          },
+          "want": {
+            "isolated": true,
+            "state": "empty"
+          }
+        },
+        {
+          "op": "journey",
+          "args": {
+            "clients": 2,
+            "transport": "websocket",
+            "actions": 40,
+            "reconnect_after": 10
+          },
+          "want": {
+            "state": "finished",
+            "ply": 40,
+            "winner": -1,
+            "client_versions": [
+              41,
+              41
+            ],
+            "ledger_rows": 2,
+            "p0_score": 0,
+            "p1_score": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "nonmember-cannot-forge-result",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "submit_result",
+          "args": {
+            "actor": "player",
+            "winner": 0
+          },
+          "want": {
+            "error": "forbidden"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "state": "running",
+            "ledger_rows": 0
+          }
+        }
+      ]
+    }
+  ]
+}

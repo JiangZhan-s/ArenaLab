@@ -4,7 +4,9 @@
 
 远程仓库：https://github.com/JiangZhan-s/ArenaLab
 
-目标：构建服务器权威的 1v1 回合制竞技服务，通过匹配、长连接、房间调度、重连、战局恢复和结算学习 Go 后端。Codex 负责主要编码；学习者负责预测、审查、实验、诊断、解释和迁移。
+目标：先构建可玩的 1v1 回合制竞技服务，再扩展 20 Hz 实时移动实验和独立 Dedicated Server 接入。Go 负责游戏后台与服务端实验，不替代 UE 战斗引擎。Codex 负责主要编码；学习者负责预测、审查、实验、诊断、解释和迁移。
+
+新版先读：[岗位适配边界](docs/ROLE_FIT.md)、[可执行验收](docs/EXECUTABLE_GATES.md)、[量化与面试证据](docs/MEASUREMENT_AND_INTERVIEW.md)、[最终可运行交付](docs/FINAL_DELIVERY.md)。历史项目规划保留作为回合制主线说明，新增实时/DS范围以这些文件及扩展契约为准。
 
 首次学习：
 
@@ -29,8 +31,11 @@
 | [09](labs/lab09/README.md) | 容量与排障 |
 | [10](labs/lab10/README.md) | 发布与数据恢复 |
 | [11](labs/lab11/README.md) | 综合事故与答辩 |
+| [12](labs/lab12/README.md) | 实时 tick、输入与客户端校正 |
+| [13](labs/lab13/README.md) | Dedicated Server 分配与结果鉴权 |
+| [14](labs/lab14/README.md) | 双模式交付与 UE 接入里程碑 |
 
-每 Lab 包含 README、tasks、acceptance.json、review、interview、reading 六份材料。
+每 Lab 包含 README、tasks、acceptance.json、review、interview、reading 六份材料。00～11 另有 execution.md，补充新版必须完成的执行路径；开始实践必须一起阅读。
 
 ## 运行边界
 
@@ -41,8 +46,10 @@ go run ./cmd/course gate 01
 ```
 
 前两条检查支架；第三条是 Lab 01 业务验收，初始应失败，因为 Apply 留给学习者驱动 Codex 实现。
-Lab 02～11 现有明确测试契约与交付物，业务自动测试须随实践创建；gate 命令显式报告未实现。
+Lab 00 有模型机器小测和独立人工答辩；Lab 02～14 已提供固定场景和 HTTP 驱动验收器，连接真实测试驱动比较观察值。业务服务及驱动仍须按 Lab 实现，缺少它们会红灯，不能称已完成端到端测试。
 绿色 starter CI 不表示业务 Gate 已通过。当前不包含可玩的游戏服务或压测成绩。
+
+量化工具：`go run ./cmd/measure artifacts/raw/run.json`；格式和对照实验见量化文档。不要把示例数据当成绩。真实 UE 联调独立记录；Go ds-sim 通过不等于 UE 接入通过。
 
 ## 常用资料
 

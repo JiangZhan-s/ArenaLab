@@ -26,5 +26,5 @@
     "observed_result",
     "limitations"
   ],
-  "automatic_runner": "provided_red_until_implemented"
+  "automatic_runner": "test/acceptance/rules"
 }

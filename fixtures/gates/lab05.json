@@ -1,0 +1,131 @@
+{
+  "lab": "05",
+  "cases": [
+    {
+      "name": "duplicate-ticket-single-occupancy",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "empty"
+          },
+          "want": {
+            "isolated": true,
+            "state": "empty"
+          }
+        },
+        {
+          "parallel": [
+            {
+              "op": "enqueue",
+              "args": {
+                "player": 0,
+                "request_id": "q0"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "enqueue",
+              "args": {
+                "player": 0,
+                "request_id": "q0"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "enqueue",
+              "args": {
+                "player": 1,
+                "request_id": "q1"
+              },
+              "want": {
+                "error": ""
+              }
+            }
+          ]
+        },
+        {
+          "op": "await",
+          "args": {
+            "condition": "assigned",
+            "timeout_ms": 3000
+          },
+          "want": {
+            "state": "assigned"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "assignments": 1,
+            "occupied_players": 2,
+            "duplicate_occupancies": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "cancelled-ticket-not-allocated",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "empty"
+          },
+          "want": {
+            "isolated": true,
+            "state": "empty"
+          }
+        },
+        {
+          "op": "enqueue",
+          "args": {
+            "player": 0,
+            "request_id": "q0"
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "cancel",
+          "args": {
+            "player": 0
+          },
+          "want": {
+            "state": "cancelled"
+          }
+        },
+        {
+          "op": "enqueue",
+          "args": {
+            "player": 1,
+            "request_id": "q1"
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "assignments": 0,
+            "occupied_players": 0
+          }
+        }
+      ]
+    }
+  ]
+}

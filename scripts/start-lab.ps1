@@ -1,4 +1,4 @@
-param([Parameter(Mandatory)][ValidateRange(0,11)][int]$Lab)
+param([Parameter(Mandatory)][ValidateRange(0,14)][int]$Lab)
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $target = Join-Path $root ('learning/lab{0:d2}' -f $Lab)

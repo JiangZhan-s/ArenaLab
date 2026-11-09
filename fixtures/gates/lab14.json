@@ -1,0 +1,75 @@
+{
+  "lab": "14",
+  "cases": [
+    {
+      "name": "external-ds-journey",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "dedicated",
+            "seed": "ready"
+          },
+          "want": {
+            "isolated": true,
+            "state": "ready"
+          }
+        },
+        {
+          "op": "journey",
+          "args": {
+            "clients": 2,
+            "transport": "dedicated",
+            "runtime": "go_ds_sim",
+            "reconnect_after": 10
+          },
+          "want": {
+            "state": "finished",
+            "ledger_rows": 2,
+            "client_agreement": true,
+            "runtime": "go_ds_sim"
+          }
+        }
+      ]
+    },
+    {
+      "name": "drain-fleet-and-isolate-failure",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "dedicated",
+            "seed": "ready"
+          },
+          "want": {
+            "isolated": true,
+            "state": "ready"
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "ds_drain_and_crash",
+            "instances": 3,
+            "clients": 6
+          },
+          "want": {
+            "double_allocations": 0,
+            "duplicate_ledger_rows": 0,
+            "aborted_score_rows": 0
+          },
+          "bounds": {
+            "unaffected_matches_finished": {
+              "min": 1,
+              "max": 2
+            },
+            "drain_new_allocations": {
+              "min": 0,
+              "max": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

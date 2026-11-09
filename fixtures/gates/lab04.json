@@ -1,0 +1,199 @@
+{
+  "lab": "04",
+  "cases": [
+    {
+      "name": "dedup-before-version",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "move",
+            "dx": 1,
+            "dy": 0
+          },
+          "want": {
+            "error": "idempotency_conflict"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "version": 2,
+            "events": 1,
+            "commands": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "commit-without-ack",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "fault",
+          "args": {
+            "point": "after_commit_before_ack",
+            "action": "kill_on_next_command"
+          },
+          "want": {
+            "armed": true
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "crash",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "outcome_unknown"
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "restart"
+          },
+          "want": {
+            "ready": true
+          }
+        },
+        {
+          "op": "lookup",
+          "args": {
+            "player": 0,
+            "command_id": "crash"
+          },
+          "want": {
+            "committed": true,
+            "version": 2
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "version": 2,
+            "events": 1,
+            "commands": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "before-commit-no-durable-action",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "fault",
+          "args": {
+            "point": "before_commit",
+            "action": "kill_on_next_command"
+          },
+          "want": {
+            "armed": true
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "crash",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "outcome_unknown"
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "restart"
+          },
+          "want": {
+            "ready": true
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "version": 1,
+            "events": 0,
+            "commands": 0
+          }
+        }
+      ]
+    }
+  ]
+}

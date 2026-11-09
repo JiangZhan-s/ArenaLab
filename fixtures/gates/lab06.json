@@ -1,0 +1,151 @@
+{
+  "lab": "06",
+  "cases": [
+    {
+      "name": "gap-falls-back-to-snapshot",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 1,
+            "command_id": "c2",
+            "expected_version": 2,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 3
+          }
+        },
+        {
+          "op": "fault",
+          "args": {
+            "point": "event_retention",
+            "retain_from_version": 3
+          },
+          "want": {
+            "armed": true
+          }
+        },
+        {
+          "op": "resync",
+          "args": {
+            "player": 0,
+            "last_seen_version": 1
+          },
+          "want": {
+            "mode": "snapshot",
+            "version": 3
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "client"
+          },
+          "want": {
+            "version": 3,
+            "ply": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "new-session-retry-original-command",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "handle": "old"
+          },
+          "want": {
+            "epoch": 1
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "connect",
+          "args": {
+            "player": 0,
+            "handle": "new"
+          },
+          "want": {
+            "epoch": 2
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "handle": "new",
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "events": 1,
+            "commands": 1
+          }
+        }
+      ]
+    }
+  ]
+}

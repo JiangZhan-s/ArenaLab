@@ -1,0 +1,169 @@
+{
+  "lab": "12",
+  "cases": [
+    {
+      "name": "input-sequence-and-speed-limit",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "realtime",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "input",
+          "args": {
+            "player": 0,
+            "seq": 1,
+            "dx": 1,
+            "dy": 0
+          },
+          "want": {
+            "accepted": true
+          }
+        },
+        {
+          "op": "input",
+          "args": {
+            "player": 0,
+            "seq": 1,
+            "dx": 1,
+            "dy": 0
+          },
+          "want": {
+            "accepted": false,
+            "error": "duplicate_input"
+          }
+        },
+        {
+          "op": "input",
+          "args": {
+            "player": 0,
+            "seq": 2,
+            "dx": 100,
+            "dy": 0
+          },
+          "want": {
+            "accepted": false,
+            "error": "invalid_input"
+          }
+        },
+        {
+          "op": "clock",
+          "args": {
+            "advance_ticks": 1
+          },
+          "want": {
+            "tick": 1
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "snapshot"
+          },
+          "want": {
+            "tick": 1,
+            "p0_x": 1,
+            "p0_y": 0,
+            "last_processed_seq": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "lag-and-reconciliation",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "realtime",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "reconciliation",
+            "rtt_ms": 100,
+            "jitter_ms": 20,
+            "seed": 451,
+            "ticks": 200,
+            "transport": "websocket"
+          },
+          "want": {
+            "duplicate_effects": 0,
+            "illegal_moves": 0
+          },
+          "bounds": {
+            "final_position_error": {
+              "min": 0,
+              "max": 0.001
+            },
+            "max_pending_inputs": {
+              "min": 1,
+              "max": 128
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "no-tick-db-commit",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "realtime",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "fault",
+          "args": {
+            "point": "database",
+            "action": "delay",
+            "delay_ms": 500
+          },
+          "want": {
+            "armed": true
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "tick_budget",
+            "tick_hz": 20,
+            "duration_seconds": 10
+          },
+          "want": {
+            "tick_sql_commits": 0
+          },
+          "bounds": {
+            "tick_p99_ms": {
+              "min": 0,
+              "max": 50
+            },
+            "completed_ticks": {
+              "min": 180,
+              "max": 205
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

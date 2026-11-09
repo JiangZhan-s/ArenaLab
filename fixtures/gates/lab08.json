@@ -1,0 +1,187 @@
+{
+  "lab": "08",
+  "cases": [
+    {
+      "name": "settlement-replay-and-conflict",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "finished_p0"
+          },
+          "want": {
+            "isolated": true,
+            "state": "finished_p0"
+          }
+        },
+        {
+          "parallel": [
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            },
+            {
+              "op": "settle",
+              "args": {
+                "result_id": "r1"
+              },
+              "want": {
+                "error": ""
+              }
+            }
+          ]
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "ledger_rows": 2,
+            "p0_score": 10,
+            "p1_score": -10,
+            "pending_jobs": 0
+          }
+        },
+        {
+          "op": "settle",
+          "args": {
+            "result_id": "r1",
+            "winner": 1
+          },
+          "want": {
+            "error": "result_conflict"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "ledger_rows": 2,
+            "p0_score": 10,
+            "p1_score": -10
+          }
+        }
+      ]
+    },
+    {
+      "name": "projection-rebuild",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "finished_p0"
+          },
+          "want": {
+            "isolated": true,
+            "state": "finished_p0"
+          }
+        },
+        {
+          "op": "settle",
+          "args": {
+            "result_id": "r1"
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "fault",
+          "args": {
+            "point": "redis",
+            "action": "flush_test_namespace"
+          },
+          "want": {
+            "armed": true
+          }
+        },
+        {
+          "op": "projection",
+          "args": {
+            "action": "rebuild"
+          },
+          "want": {
+            "p0_score": 10,
+            "p1_score": -10
+          }
+        },
+        {
+          "op": "projection",
+          "args": {
+            "action": "deliver_stale",
+            "player": 0,
+            "version": 0,
+            "score": 0
+          },
+          "want": {
+            "p0_score": 10
+          }
+        }
+      ]
+    }
+  ]
+}

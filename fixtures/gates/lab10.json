@@ -1,0 +1,146 @@
+{
+  "lab": "10",
+  "cases": [
+    {
+      "name": "drain-rejects-new-preserves-existing",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "drain"
+          },
+          "want": {
+            "draining": true
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "build": "turn-v1"
+          },
+          "want": {
+            "error": "draining"
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "version": 2,
+            "events": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "restore-and-replay",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 2
+          }
+        },
+        {
+          "op": "backup",
+          "args": {
+            "action": "snapshot"
+          },
+          "want": {
+            "saved": true
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 1,
+            "command_id": "c2",
+            "expected_version": 2,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "",
+            "version": 3
+          }
+        },
+        {
+          "op": "backup",
+          "args": {
+            "action": "restore_to_new_database"
+          },
+          "want": {
+            "restored": true
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "restored_sql"
+          },
+          "want": {
+            "version": 2,
+            "events": 1
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "target": "restored",
+            "player": 0,
+            "command_id": "c1",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "version": 2,
+            "error": ""
+          }
+        }
+      ]
+    }
+  ]
+}

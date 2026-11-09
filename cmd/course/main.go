@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/JiangZhan-s/ArenaLab/internal/coursegate"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -24,7 +25,7 @@ func main() {
 }
 func run(args []string) error {
 	if len(args) == 0 {
-		return fmt.Errorf("usage: go run ./cmd/course check | gate NN")
+		return fmt.Errorf("usage: go run ./cmd/course check | gate NN | gate-all")
 	}
 	b, err := os.ReadFile("course.json")
 	if err != nil {
@@ -34,8 +35,8 @@ func run(args []string) error {
 	if err = json.Unmarshal(b, &c); err != nil {
 		return err
 	}
-	if len(c.Labs) != 12 {
-		return fmt.Errorf("expected 12 labs")
+	if len(c.Labs) != 15 {
+		return fmt.Errorf("expected 15 labs")
 	}
 	if args[0] == "check" {
 		seen := map[string]bool{}
@@ -44,6 +45,15 @@ func run(args []string) error {
 				return fmt.Errorf("duplicate lab %s", l.ID)
 			}
 			seen[l.ID] = true
+			if l.ID != "00" && l.ID != "01" {
+				s, e := coursegate.Load(filepath.Join("fixtures", "gates", "lab"+l.ID+".json"))
+				if e != nil {
+					return e
+				}
+				if s.Lab != l.ID {
+					return fmt.Errorf("suite lab mismatch")
+				}
+			}
 			for _, name := range []string{"README.md", "tasks.md", "acceptance.json", "review.md", "interview.md", "reading.md"} {
 				p := filepath.Join(l.Path, name)
 				data, e := os.ReadFile(p)
@@ -75,10 +85,24 @@ func run(args []string) error {
 		fmt.Println("PASS: course structure only; no business gate is implied")
 		return nil
 	}
+	if args[0] == "gate-all" && len(args) == 1 {
+		failed := 0
+		for _, l := range c.Labs {
+			if err := run([]string{"gate", l.ID}); err != nil {
+				failed++
+				fmt.Fprintf(os.Stderr, "FAIL gate %s: %v\n", l.ID, err)
+			}
+		}
+		if failed != 0 {
+			return fmt.Errorf("%d/%d gates failed", failed, len(c.Labs))
+		}
+		fmt.Println("PASS all executable gates; manual defense and browser/UE evidence remain separate")
+		return nil
+	}
 	if args[0] == "gate" && len(args) == 2 {
 		id := args[1]
 		if id == "00" {
-			return fmt.Errorf("MANUAL_GATE: submit four state tables, 12 invariants, 10 sequences and oral defense")
+			return modelGate()
 		}
 		found := false
 		for _, l := range c.Labs {
@@ -90,7 +114,19 @@ func run(args []string) error {
 			return fmt.Errorf("unknown lab %s", id)
 		}
 		if id != "01" {
-			return fmt.Errorf("NOT_IMPLEMENTED: Lab %s business runner must be built following its acceptance.json; do not count as passed", id)
+			s, err := coursegate.Load(filepath.Join("fixtures", "gates", "lab"+id+".json"))
+			if err != nil {
+				return err
+			}
+			base := os.Getenv("ARENALAB_DRIVER_URL")
+			if base == "" {
+				base = "http://127.0.0.1:8099"
+			}
+			r, err := coursegate.New(base, os.Getenv("ARENALAB_TEST_TOKEN"))
+			if err != nil {
+				return err
+			}
+			return r.Run(s, os.Stdout)
 		}
 		cmd := exec.Command("go", "test", "-tags=acceptance", "./test/acceptance/rules", "-count=1", "-timeout=30s")
 		cmd.Stdout = os.Stdout
@@ -98,4 +134,28 @@ func run(args []string) error {
 		return cmd.Run()
 	}
 	return fmt.Errorf("unknown command")
+}
+
+func modelGate() error {
+	b, err := os.ReadFile("learning/lab00/model.json")
+	if err != nil {
+		return fmt.Errorf("fill templates/model.json into learning/lab00/model.json: %w", err)
+	}
+	var got map[string]any
+	if err = json.Unmarshal(b, &got); err != nil {
+		return err
+	}
+	want := map[string]any{
+		"committed_ack_requires": "durable_commit",
+		"commit_connection_lost": "outcome_unknown",
+		"duplicate_command":      "original_result",
+		"old_owner":              "reject",
+		"realtime_tick_ack":      "volatile_processed",
+		"aborted_score":          float64(0),
+	}
+	if err = coursegate.Match(want, got); err != nil {
+		return err
+	}
+	fmt.Println("PASS: model assertions only; state tables and oral defense still required")
+	return nil
 }

@@ -1,0 +1,94 @@
+{
+  "lab": "09",
+  "cases": [
+    {
+      "name": "fixed-offered-load",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "open_loop",
+            "rooms": 100,
+            "rate_per_second": 200,
+            "duration_seconds": 30,
+            "seed": 451
+          },
+          "want": {
+            "unexpected_errors": 0,
+            "invariant_violations": 0
+          },
+          "bounds": {
+            "offered": {
+              "min": 6000,
+              "max": 6000
+            },
+            "completed": {
+              "min": 5940,
+              "max": 6000
+            },
+            "p99_ms": {
+              "min": 0,
+              "max": 250
+            },
+            "raw_samples": {
+              "min": 6000,
+              "max": 6000
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "overload-recovers",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "exercise",
+          "args": {
+            "kind": "overload_and_recover",
+            "queue_capacity": 64,
+            "duration_seconds": 30
+          },
+          "want": {
+            "invariant_violations": 0
+          },
+          "bounds": {
+            "rejected": {
+              "min": 1,
+              "max": 1000000
+            },
+            "max_queue_depth": {
+              "min": 1,
+              "max": 64
+            },
+            "recovery_ms": {
+              "min": 0,
+              "max": 5000
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

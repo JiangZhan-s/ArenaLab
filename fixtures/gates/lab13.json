@@ -1,0 +1,238 @@
+{
+  "lab": "13",
+  "cases": [
+    {
+      "name": "allocate-retry-authenticated-result",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "dedicated",
+            "seed": "ready"
+          },
+          "want": {
+            "isolated": true,
+            "state": "ready"
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "request_id": "alloc1",
+            "build": "ds-v1",
+            "region": "local"
+          },
+          "want": {
+            "error": "",
+            "allocation_id": "a1",
+            "generation": 1
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "request_id": "alloc1",
+            "build": "ds-v1",
+            "region": "local"
+          },
+          "want": {
+            "error": "",
+            "allocation_id": "a1",
+            "generation": 1
+          }
+        },
+        {
+          "op": "ds_join",
+          "args": {
+            "player": 0,
+            "ticket": "valid"
+          },
+          "want": {
+            "accepted": true
+          }
+        },
+        {
+          "op": "ds_join",
+          "args": {
+            "player": 0,
+            "ticket": "replay"
+          },
+          "want": {
+            "accepted": false,
+            "error": "ticket_used"
+          }
+        },
+        {
+          "op": "ds_result",
+          "args": {
+            "allocation_id": "a1",
+            "generation": 1,
+            "identity": "allocated_ds",
+            "winner": 0
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "ds_result",
+          "args": {
+            "allocation_id": "a1",
+            "generation": 1,
+            "identity": "allocated_ds",
+            "winner": 0
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "allocations": 1,
+            "ledger_rows": 2,
+            "p0_score": 10,
+            "p1_score": -10
+          }
+        }
+      ]
+    },
+    {
+      "name": "expired-ticket-wrong-build-and-player-forgery",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "dedicated",
+            "seed": "ready"
+          },
+          "want": {
+            "isolated": true,
+            "state": "ready"
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "request_id": "alloc1",
+            "build": "missing",
+            "region": "local"
+          },
+          "want": {
+            "error": "no_capacity"
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "request_id": "alloc2",
+            "build": "ds-v1",
+            "region": "local"
+          },
+          "want": {
+            "error": ""
+          }
+        },
+        {
+          "op": "ds_join",
+          "args": {
+            "player": 0,
+            "ticket": "expired"
+          },
+          "want": {
+            "accepted": false,
+            "error": "ticket_expired"
+          }
+        },
+        {
+          "op": "ds_result",
+          "args": {
+            "identity": "player",
+            "winner": 0
+          },
+          "want": {
+            "error": "forbidden"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "ledger_rows": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "stale-generation-cannot-settle",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "dedicated",
+            "seed": "ready"
+          },
+          "want": {
+            "isolated": true,
+            "state": "ready"
+          }
+        },
+        {
+          "op": "allocate",
+          "args": {
+            "request_id": "alloc1",
+            "build": "ds-v1",
+            "region": "local"
+          },
+          "want": {
+            "generation": 1
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "kill_ds"
+          },
+          "want": {
+            "killed": true
+          }
+        },
+        {
+          "op": "await",
+          "args": {
+            "condition": "allocation_aborted",
+            "timeout_ms": 5000
+          },
+          "want": {
+            "state": "aborted"
+          }
+        },
+        {
+          "op": "ds_result",
+          "args": {
+            "identity": "old_ds",
+            "generation": 1,
+            "winner": 0
+          },
+          "want": {
+            "error": "stale_allocation"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "ledger_rows": 0
+          }
+        }
+      ]
+    }
+  ]
+}

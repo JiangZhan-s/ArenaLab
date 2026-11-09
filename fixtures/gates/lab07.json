@@ -1,0 +1,116 @@
+{
+  "lab": "07",
+  "cases": [
+    {
+      "name": "fenced-zombie-owner",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "pause_owner"
+          },
+          "want": {
+            "paused": true
+          }
+        },
+        {
+          "op": "await",
+          "args": {
+            "condition": "new_owner",
+            "timeout_ms": 5000
+          },
+          "want": {
+            "owner_epoch": 2
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "resume_old_owner"
+          },
+          "want": {
+            "resumed": true
+          }
+        },
+        {
+          "op": "action",
+          "args": {
+            "player": 0,
+            "owner_epoch": 1,
+            "command_id": "zombie",
+            "expected_version": 1,
+            "kind": "pass"
+          },
+          "want": {
+            "error": "stale_owner"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "version": 1,
+            "events": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "abort-policy-is-explicit",
+      "steps": [
+        {
+          "op": "reset",
+          "args": {
+            "profile": "turn_abort",
+            "seed": "running"
+          },
+          "want": {
+            "isolated": true,
+            "state": "running"
+          }
+        },
+        {
+          "op": "process",
+          "args": {
+            "action": "kill_owner"
+          },
+          "want": {
+            "killed": true
+          }
+        },
+        {
+          "op": "await",
+          "args": {
+            "condition": "aborted",
+            "timeout_ms": 5000
+          },
+          "want": {
+            "state": "aborted"
+          }
+        },
+        {
+          "op": "observe",
+          "args": {
+            "source": "sql"
+          },
+          "want": {
+            "ledger_rows": 0
+          }
+        }
+      ]
+    }
+  ]
+}

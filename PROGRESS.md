@@ -15,6 +15,11 @@
 | 09 | not_started | | | |
 | 10 | not_started | | | |
 | 11 | not_started | | | |
+| 12 | not_started | | | |
+| 13 | not_started | | | |
+| 14 | not_started | | | |
+
+UE 真实联调：not_run。Go ds-sim 不替代该里程碑。课程改版不改变学习者的已有通过状态。
 当前：Lab 00。下一步：learning/lab00/prelab.md。
 ## 学习债务
 记录不会解释的函数、SQL、故障窗口和计划复习日期。由学习者填写。

@@ -1,0 +1,23 @@
+{
+  "lab": "14",
+  "status": "not_implemented",
+  "command": "go run ./cmd/course gate 14",
+  "required_result": "固定场景全部通过；真实服务路径审查、mutation、实验和答辩独立通过",
+  "automatic_runner": "internal/coursegate + fixtures/gates/lab14.json",
+  "deliverables": [
+    "deploy/compose.yaml",
+    "scripts/demo.ps1",
+    "scripts/demo.sh",
+    "docs/evidence/",
+    "integration/unreal/"
+  ],
+  "evidence": [
+    "commit",
+    "environment",
+    "raw_output",
+    "prediction",
+    "observed_result",
+    "limitations"
+  ],
+  "scope": "Go DS end-to-end; real UE milestone separately required for UE claims"
+}
