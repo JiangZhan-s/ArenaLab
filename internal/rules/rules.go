@@ -1,4 +1,4 @@
-// Package rules contains the Lab 01 exercise. Apply is intentionally unfinished.
+// Package rules contains shared rule types. Apply is selected by build tag.
 package rules
 
 import "errors"
@@ -23,10 +23,4 @@ type Action struct {
 	Kind   string `json:"kind"`
 	DX     int    `json:"dx"`
 	DY     int    `json:"dy"`
-}
-
-// Apply must return the unchanged state and the contract error on rejection.
-// Implement in Lab 01 after prelab and fixture review.
-func Apply(s State, a Action) (State, error) {
-	return s, ErrNotImplemented
 }

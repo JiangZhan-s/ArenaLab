@@ -1,0 +1,8 @@
+{
+  "committed_ack_requires":"durable_commit",
+  "commit_connection_lost":"outcome_unknown",
+  "duplicate_command":"original_result",
+  "old_owner":"reject",
+  "realtime_tick_ack":"volatile_processed",
+  "aborted_score":0
+}

@@ -15,12 +15,12 @@
 | deploy/compose.yaml + demo脚本 | Lab14 | 新环境按文档启动，无手改数据库、隐藏本地依赖 |
 | integration/unreal | 独立里程碑 | 真UE DS双客户端、票据拒绝、结果和进程故障证据 |
 
-## 最终启动接口（待各 Lab 实现后才可用）
+## 参考版启动接口（已实现，运行记录见 VALIDATION.md）
 
 固定交付命令：`docker compose -f deploy/compose.yaml up --build -d --wait`。
 容器包含MySQL、Redis、arena、worker、至少两个ds-sim；浏览器入口 `http://localhost:8080`。正常profile不启动测试驱动。
 
-Gate profile：`docker compose -f deploy/compose.yaml --profile test up --build -d --wait`，驱动仅发布127.0.0.1:8099，单独测试数据库，不影响演示对局。需要Docker Compose支持--wait；SETUP.md在实现时固定验证过的版本。
+Gate 使用独立 `deploy/compose.verify.yaml`，不再使用未实现的 `--profile test`。执行 `bash scripts/wsl-reference.sh`，脚本在容器内启动真实服务和临时驱动，独立数据库，不影响演示对局。手动驱动 CLI 默认仅发布 127.0.0.1:8099。版本见 SETUP.md。
 
 Windows提供 scripts/demo.ps1，Linux提供 scripts/demo.sh；二者分别启动、检查就绪、打印URL并给出退出命令。不要复制依赖Linux shell的命令假装Windows也已测试。
 
@@ -30,7 +30,9 @@ Windows提供 scripts/demo.ps1，Linux提供 scripts/demo.sh；二者分别启�
 go test ./...
 go test -race ./...
 go run ./cmd/course check
-go run ./cmd/course gate-all
+bash scripts/wsl-reference.sh
+bash scripts/wsl-browser.sh
+bash scripts/wsl-mutations.sh
 ```
 
 Windows无race工具链时使用Linux CI完成，必须保存对应SHA结果。starter CI不是以上全链路证据。
@@ -55,4 +57,4 @@ docs/evidence/index.md逐项填写：SHA、命令、环境、exit code、原始�
 - [ ] 另一人按README成功复现；受限环境明确写限制。
 - [ ] UE真实集成单独记录；未通过则收窄简历措辞，不阻止Go主线学习。
 
-没有这些证据只能称“进行中的课程项目”。即使全部完成，生产上线仍需安全审计、真实流量容量验证、运营和长期故障经验，不能自动称为生产级。
+这份清单区分参考课程验证与学习者结业。参考版本可作为开始学习的基准；你个人未完成的答辩、对照实验与独立复现仍需逐项交付。即使全部完成，生产上线仍需安全审计、真实流量容量验证、运营和长期故障经验，不能自动称为生产级。

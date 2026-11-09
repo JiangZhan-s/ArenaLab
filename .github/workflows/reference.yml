@@ -1,0 +1,24 @@
+name: reference-gates
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Real process gates (not learner mastery)
+        run: bash scripts/wsl-reference.sh
+      - name: Five deliberate mutants
+        run: bash scripts/wsl-mutations.sh
+      - name: Fresh demo
+        run: bash scripts/demo.sh
+      - name: Two browser journeys
+        run: bash scripts/wsl-browser.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reference-evidence
+          path: artifacts/raw/
+          retention-days: 14

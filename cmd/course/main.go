@@ -128,7 +128,11 @@ func run(args []string) error {
 			}
 			return r.Run(s, os.Stdout)
 		}
-		cmd := exec.Command("go", "test", "-tags=acceptance", "./test/acceptance/rules", "-count=1", "-timeout=30s")
+		tags := "acceptance"
+		if referenceMode {
+			tags += ",reference"
+		}
+		cmd := exec.Command("go", "test", "-tags="+tags, "./test/acceptance/rules", "-count=1", "-timeout=30s")
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = os.Stderr
 		return cmd.Run()
@@ -137,7 +141,11 @@ func run(args []string) error {
 }
 
 func modelGate() error {
-	b, err := os.ReadFile("learning/lab00/model.json")
+	path := "learning/lab00/model.json"
+	if referenceMode {
+		path = "reference/model.json"
+	}
+	b, err := os.ReadFile(path)
 	if err != nil {
 		return fmt.Errorf("fill templates/model.json into learning/lab00/model.json: %w", err)
 	}

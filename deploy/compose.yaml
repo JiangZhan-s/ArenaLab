@@ -1,0 +1,95 @@
+name: arenalab-demo
+x-app: &app
+  image: arenalab-reference:local
+  build:
+    context: ..
+    dockerfile: deploy/Dockerfile
+  network_mode: host
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: arenalab-demo-root-local-only
+      MYSQL_DATABASE: arenalab_demo
+      MYSQL_USER: arena
+      MYSQL_PASSWORD: arenalab-demo-local-only
+    ports: ["127.0.0.1:23306:3306"]
+    volumes: ["demo-mysql:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-parenalab-demo-root-local-only"]
+      interval: 3s
+      timeout: 2s
+      retries: 40
+  redis:
+    image: redis:7.4
+    ports: ["127.0.0.1:26379:6379"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 2s
+      retries: 20
+  arena:
+    <<: *app
+    command: ["arena-server", "-listen", "127.0.0.1:8080"]
+    environment:
+      ARENALAB_DSN: "arena:arenalab-demo-local-only@tcp(127.0.0.1:23306)/arenalab_demo?parseTime=true"
+      ARENALAB_DEV_SECRET: arenalab-local-development
+      ARENALAB_MODE: dedicated
+      ARENALAB_ORIGIN: http://localhost:8080
+    depends_on:
+      mysql: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "healthcheck", "http://127.0.0.1:8080/healthz"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  worker:
+    <<: *app
+    command: ["settlement-worker"]
+    environment:
+      ARENALAB_DSN: "arena:arenalab-demo-local-only@tcp(127.0.0.1:23306)/arenalab_demo?parseTime=true"
+      ARENALAB_REDIS_ADDR: 127.0.0.1:26379
+    depends_on:
+      arena: {condition: service_healthy}
+      redis: {condition: service_healthy}
+  ds1:
+    <<: *app
+    command: ["ds-sim", "-listen", "127.0.0.1:8101", "-id", "ds1"]
+    environment:
+      ARENALAB_DS_AUTH: 6d452024893f6f64ffdf327832be7ef6aad4471d2585ca48d3c3edbd6ca90f5a
+      ARENALAB_DS_TICKET_KEY: 982ca5c79abf93cdf6290826f64e573f78cf97cb8d54e4fdce9aa168ef435646
+    depends_on:
+      arena: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "healthcheck", "http://127.0.0.1:8101/healthz"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  ds2:
+    <<: *app
+    command: ["ds-sim", "-listen", "127.0.0.1:8102", "-id", "ds2"]
+    environment:
+      ARENALAB_DS_AUTH: aa5056b491242645c534f9027f50b50c42449acca937c83fef7b97be02b4e9a6
+      ARENALAB_DS_TICKET_KEY: 289c77fd4bcfaf2551c9c22c0ce42572b5f12e208578c112771fb0292ec15eef
+    depends_on:
+      arena: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "healthcheck", "http://127.0.0.1:8102/healthz"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  ds3:
+    <<: *app
+    command: ["ds-sim", "-listen", "127.0.0.1:8103", "-id", "ds3"]
+    environment:
+      ARENALAB_DS_AUTH: 9e299fb76c8d82788dbb89e6357956befe1f964ad48610049de800bd4184e37d
+      ARENALAB_DS_TICKET_KEY: 96374342e64c8100a185c3bcdc5b08d456d861963af322a874d8117ab4a2e092
+    depends_on:
+      arena: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "healthcheck", "http://127.0.0.1:8103/healthz"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+volumes:
+  demo-mysql:

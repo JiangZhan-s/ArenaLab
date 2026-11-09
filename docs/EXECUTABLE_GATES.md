@@ -17,7 +17,7 @@ $env:ARENALAB_TEST_TOKEN = 'local-disposable-test-token'
 go run ./cmd/course gate 04
 ```
 
-最终实现还需启动独立测试驱动 `go run ./cmd/testdriver`；当前课程改版提供验收器与断言，驱动和业务由 Lab02 起实现。未实现阶段连接失败是预期红灯，不是通过。
+参考实现已经包含独立驱动，使用 `bash scripts/wsl-reference.sh` 自动编译服务、启动测试驱动并运行固定场景；部分 Lab 使用 `bash scripts/wsl-reference.sh 04,07`。CLI 手动模式须 `go run -tags reference ./cmd/testdriver -help` 查看参数。学习实现与参考实现的验收证据必须分开，连接失败不能算通过。
 
 ## 驱动职责：只操作和观测，不出判卷结果
 

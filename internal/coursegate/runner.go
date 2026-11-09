@@ -173,7 +173,8 @@ func (r *Runner) step(s Step) error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("%s: driver HTTP %d", s.Op, resp.StatusCode)
+		body, _ := io.ReadAll(io.LimitReader(resp.Body, 4096))
+		return fmt.Errorf("%s: driver HTTP %d: %s", s.Op, resp.StatusCode, strings.TrimSpace(string(body)))
 	}
 	data, err := io.ReadAll(io.LimitReader(resp.Body, 1<<20+1))
 	if err != nil {

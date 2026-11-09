@@ -6,7 +6,7 @@
 4. 将 prompts/session.md 发给 Codex，开始一次只问一题的质询。
 5. 完成 Lab 00 的四张状态表和十个异常事件序列，才进入 Lab 01。
 ## 环境
-安装可用的 Go 工具链（模块最低 Go 1.25），Git；Docker 到 Lab 04 再使用。
+使用 WSL + Docker，先按 SETUP.md 验证环境。建议先运行 `bash scripts/demo.sh` 看最终目标，再关闭参考实现进入 Lab00。若直接执行下面的 Go 命令，需要安装 Go 1.25+；完整自动验收可以通过 `bash scripts/wsl-reference.sh` 使用容器工具链。
 在仓库根目录执行：
 ```text
 go run ./cmd/course check
@@ -15,7 +15,7 @@ go run ./cmd/course gate 01
 ```
 前两条检查支架；第三条运行 Lab 01 规则验收，初始应失败并提示未实现。
 Lab 00 先按 templates/model.json 自行填写 learning/lab00/model.json，再运行 gate 00；人工状态表和答辩仍必须完成。
-Lab 02～14 的固定场景与验收器已提供；实际业务和测试驱动逐 Lab 实现。启动方式、隔离要求见 docs/EXECUTABLE_GATES.md。不要将缺驱动的连接失败记为通过。
+Lab 02～14 已有独立参考服务和真实测试驱动；启动方式、学习版与参考版的区分见 docs/REFERENCE_GUIDE.md。参考版机器通过不替代你的预测、审查和答辩。不要将缺驱动的连接失败记为通过。
 00～11 开始前另读该 Lab 的 execution.md；12～14 另读 contracts/REALTIME_AND_DS.md。最终完成条件见 docs/FINAL_DELIVERY.md。
 当前支架不需要数据库、模型 API key 或付费服务。
 ## 恢复学习

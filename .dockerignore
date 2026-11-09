@@ -1,0 +1,7 @@
+.git
+bin
+artifacts
+learning
+node_modules
+.env*
+!*.example

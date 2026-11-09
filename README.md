@@ -1,6 +1,6 @@
 # ArenaLab：Go 游戏服务课程仓库
 
-这是可以开始逐 Lab 学习的课程仓库，包含教材、任务、模拟问答、Starter Code、固定规则验收和学习记录模板。业务实现按 Lab 推进；完整游戏服务尚未实现。
+这是 Go 游戏后端课程仓库，包含教材、任务、模拟问答、学习支架，以及独立的可运行参考实现、真实进程测试驱动和双浏览器演示。参考实现不等于你已完成学习；不会代填学习者记录。
 
 远程仓库：https://github.com/JiangZhan-s/ArenaLab
 
@@ -14,6 +14,19 @@
 2. [项目与课程设计](PROJECT_AND_COURSE.md)：真实场景与架构演进。
 3. [规范性业务契约](contracts/SEMANTICS.md)：状态、ACK、幂等与时间边界。
 4. [Lab 00](labs/lab00/README.md)：填写自己的初始预测。
+
+## WSL 快速启动
+
+在 WSL 的 Linux 文件系统中 clone（建议 `~/src/ArenaLab`，不要把 Windows 工具链混用到 WSL）。需要 Git、Docker Engine 和 Docker Compose；无需宿主机 Go：
+
+```bash
+bash scripts/demo.sh                    # 服务 + MySQL + Redis + 三个 DS
+bash scripts/wsl-reference.sh           # 00 模型参考、01 规则、02–14 真实进程验收
+bash scripts/wsl-reference.sh 04,07      # 单独重跑事务和 fencing
+bash scripts/wsl-browser.sh             # Chromium 两个独立客户端完整演示
+```
+
+打开 `http://localhost:8080`，两个页面分别选 P0/P1，登录后匹配。先试回合制，再试独立 DS 模式。所有凭据仅用于本地实验，禁止公网暴露。详见 [运行和学习手册](docs/REFERENCE_GUIDE.md) 与 [验证记录](docs/VALIDATION.md)。
 
 ## 课程导航
 
@@ -46,8 +59,8 @@ go run ./cmd/course gate 01
 ```
 
 前两条检查支架；第三条是 Lab 01 业务验收，初始应失败，因为 Apply 留给学习者驱动 Codex 实现。
-Lab 00 有模型机器小测和独立人工答辩；Lab 02～14 已提供固定场景和 HTTP 驱动验收器，连接真实测试驱动比较观察值。业务服务及驱动仍须按 Lab 实现，缺少它们会红灯，不能称已完成端到端测试。
-绿色 starter CI 不表示业务 Gate 已通过。当前不包含可玩的游戏服务或压测成绩。
+Lab 00 有模型机器小测和独立人工答辩；Lab 02～14 的固定验收连接真实测试驱动比较观察值。参考实现使用 `-tags reference`，普通构建仍走学习入口。不要直接复制参考实现后把绿色验收记成掌握。
+绿色 starter CI 不表示业务 Gate 已通过；reference CI、人工答辩、真实 UE 联调分别记录。
 
 量化工具：`go run ./cmd/measure artifacts/raw/run.json`；格式和对照实验见量化文档。不要把示例数据当成绩。真实 UE 联调独立记录；Go ds-sim 通过不等于 UE 接入通过。
 
