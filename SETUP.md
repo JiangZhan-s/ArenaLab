@@ -13,7 +13,9 @@ bash scripts/wsl-reference.sh 04,07
 bash scripts/wsl-browser.sh
 ```
 
-演示入口 http://localhost:8080，DS 使用 8101–8103；演示数据库 23306/26379，验证数据库 13306/16379，均仅绑定 loopback。端口已占用时先查明占用者，不杀未知进程。首次运行需要下载镜像；仓库 vendor 固定 Go 依赖，不依赖运行时访问 Go module proxy。
+演示入口 http://localhost:18080，DS 使用 8101–8103；演示数据库 23306/26379，验证数据库 13306/16379，均仅绑定 loopback。端口已占用时先查明占用者，不杀未知进程。首次运行需要下载镜像；仓库 vendor 固定 Go 依赖，不依赖运行时访问 Go module proxy。
+
+Windows 打不开而 WSL 能打开时，先在 WSL 执行 `curl --noproxy '*' http://127.0.0.1:18080/healthz`，再在 Windows 执行 `curl.exe --noproxy "*" http://localhost:18080/healthz`。检查 `netsh interface ipv4 show excludedportrange protocol=tcp`：本机原 8080 位于保留区间，故改用 18080。不要为演示删除系统保留区间。浏览器使用 `localhost`，不是直接使用 WSL IP；Origin 白名单采用精确匹配。
 
 演示数据使用 `arenalab-demo_demo-mysql` 卷；`docker compose -f deploy/compose.yaml stop` 保留它。`down -v` 会不可恢复地删除本地演示数据，日常学习不要使用。验证库是 tmpfs，停止数据库容器会丢失测试数据。driver 只创建随机 `arenalab_test_` 数据库，不使用演示库，不自动删除其他数据库。
 

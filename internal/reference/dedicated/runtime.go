@@ -16,6 +16,7 @@ import (
 )
 
 type Runtime struct {
+	Origin                                 string
 	ID, Base, Endpoint, AuthKey, TicketKey string
 	mu                                     sync.Mutex
 	Allocation                             Allocation
@@ -29,7 +30,7 @@ type Runtime struct {
 
 func NewRuntime(id, base, endpoint, auth, ticket string) *Runtime {
 	ctx, cancel := context.WithCancel(context.Background())
-	return &Runtime{ID: id, Base: base, Endpoint: endpoint, AuthKey: auth, TicketKey: ticket, used: map[string]bool{}, joined: map[int]bool{}, peers: map[*websocket.Conn]chan any{}, ctx: ctx, cancel: cancel}
+	return &Runtime{Origin: "http://localhost:8080", ID: id, Base: base, Endpoint: endpoint, AuthKey: auth, TicketKey: ticket, used: map[string]bool{}, joined: map[int]bool{}, peers: map[*websocket.Conn]chan any{}, ctx: ctx, cancel: cancel}
 }
 func (r *Runtime) Close() {
 	r.cancel()
@@ -166,7 +167,7 @@ func (r *Runtime) Handler() http.Handler {
 func (r *Runtime) websocket(w http.ResponseWriter, q *http.Request) {
 	// Browser clients send the one-use ticket as the first frame, not in the URL.
 	origin := q.Header.Get("Origin")
-	if origin != "" && origin != "http://localhost:8080" {
+	if origin != "" && origin != r.Origin {
 		http.Error(w, "origin_denied", 403)
 		return
 	}

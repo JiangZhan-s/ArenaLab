@@ -18,7 +18,7 @@
 ## 参考版启动接口（已实现，运行记录见 VALIDATION.md）
 
 固定交付命令：`docker compose -f deploy/compose.yaml up --build -d --wait`。
-容器包含MySQL、Redis、arena、worker、至少两个ds-sim；浏览器入口 `http://localhost:8080`。正常profile不启动测试驱动。
+容器包含MySQL、Redis、arena、worker、至少两个ds-sim；浏览器入口 `http://localhost:18080`。正常profile不启动测试驱动。
 
 Gate 使用独立 `deploy/compose.verify.yaml`，不再使用未实现的 `--profile test`。执行 `bash scripts/wsl-reference.sh`，脚本在容器内启动真实服务和临时驱动，独立数据库，不影响演示对局。手动驱动 CLI 默认仅发布 127.0.0.1:8099。版本见 SETUP.md。
 

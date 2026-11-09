@@ -28,6 +28,9 @@ func main() {
 		log.Fatal(e)
 	}
 	r := dedicated.NewRuntime(*id, *base, "http://"+l.Addr().String(), auth, ticket)
+	if origin := os.Getenv("ARENALAB_ORIGIN"); origin != "" {
+		r.Origin = origin
+	}
 	defer r.Close()
 	mux := http.NewServeMux()
 	mux.Handle("/", r.Handler())

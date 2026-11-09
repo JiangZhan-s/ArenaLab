@@ -26,7 +26,7 @@ bash scripts/wsl-reference.sh 04,07      # 单独重跑事务和 fencing
 bash scripts/wsl-browser.sh             # Chromium 两个独立客户端完整演示
 ```
 
-打开 `http://localhost:8080`，两个页面分别选 P0/P1，登录后匹配。先试回合制，再试独立 DS 模式。所有凭据仅用于本地实验，禁止公网暴露。详见 [运行和学习手册](docs/REFERENCE_GUIDE.md) 与 [验证记录](docs/VALIDATION.md)。
+打开 `http://localhost:18080`，两个页面分别选 P0/P1，登录后匹配。先试回合制，再试独立 DS 模式。所有凭据仅用于本地实验，禁止公网暴露。详见 [运行和学习手册](docs/REFERENCE_GUIDE.md) 与 [验证记录](docs/VALIDATION.md)。
 
 ## 课程导航
 

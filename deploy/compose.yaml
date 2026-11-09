@@ -30,16 +30,16 @@ services:
       retries: 20
   arena:
     <<: *app
-    command: ["arena-server", "-listen", "127.0.0.1:8080"]
+    command: ["arena-server", "-listen", "127.0.0.1:18080"]
     environment:
       ARENALAB_DSN: "arena:arenalab-demo-local-only@tcp(127.0.0.1:23306)/arenalab_demo?parseTime=true"
       ARENALAB_DEV_SECRET: arenalab-local-development
       ARENALAB_MODE: dedicated
-      ARENALAB_ORIGIN: http://localhost:8080
+      ARENALAB_ORIGIN: http://localhost:18080
     depends_on:
       mysql: {condition: service_healthy}
     healthcheck:
-      test: ["CMD", "healthcheck", "http://127.0.0.1:8080/healthz"]
+      test: ["CMD", "healthcheck", "http://127.0.0.1:18080/healthz"]
       interval: 2s
       timeout: 3s
       retries: 30
@@ -54,8 +54,9 @@ services:
       redis: {condition: service_healthy}
   ds1:
     <<: *app
-    command: ["ds-sim", "-listen", "127.0.0.1:8101", "-id", "ds1"]
+    command: ["ds-sim", "-listen", "127.0.0.1:8101", "-id", "ds1", "-backend", "http://127.0.0.1:18080"]
     environment:
+      ARENALAB_ORIGIN: http://localhost:18080
       ARENALAB_DS_AUTH: 6d452024893f6f64ffdf327832be7ef6aad4471d2585ca48d3c3edbd6ca90f5a
       ARENALAB_DS_TICKET_KEY: 982ca5c79abf93cdf6290826f64e573f78cf97cb8d54e4fdce9aa168ef435646
     depends_on:
@@ -67,8 +68,9 @@ services:
       retries: 20
   ds2:
     <<: *app
-    command: ["ds-sim", "-listen", "127.0.0.1:8102", "-id", "ds2"]
+    command: ["ds-sim", "-listen", "127.0.0.1:8102", "-id", "ds2", "-backend", "http://127.0.0.1:18080"]
     environment:
+      ARENALAB_ORIGIN: http://localhost:18080
       ARENALAB_DS_AUTH: aa5056b491242645c534f9027f50b50c42449acca937c83fef7b97be02b4e9a6
       ARENALAB_DS_TICKET_KEY: 289c77fd4bcfaf2551c9c22c0ce42572b5f12e208578c112771fb0292ec15eef
     depends_on:
@@ -80,8 +82,9 @@ services:
       retries: 20
   ds3:
     <<: *app
-    command: ["ds-sim", "-listen", "127.0.0.1:8103", "-id", "ds3"]
+    command: ["ds-sim", "-listen", "127.0.0.1:8103", "-id", "ds3", "-backend", "http://127.0.0.1:18080"]
     environment:
+      ARENALAB_ORIGIN: http://localhost:18080
       ARENALAB_DS_AUTH: 9e299fb76c8d82788dbb89e6357956befe1f964ad48610049de800bd4184e37d
       ARENALAB_DS_TICKET_KEY: 96374342e64c8100a185c3bcdc5b08d456d861963af322a874d8117ab4a2e092
     depends_on:

@@ -1,7 +1,7 @@
 const { chromium } = await import(process.env.ARENALAB_PLAYWRIGHT_MODULE || 'playwright');
 import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
-const root=process.env.ARENALAB_BROWSER_URL||'http://localhost:8080';
+const root=process.env.ARENALAB_BROWSER_URL||'http://localhost:18080';
 const destination='artifacts/raw/browser';await mkdir(destination,{recursive:true});
 const browser=await chromium.launch({headless:true,...(process.env.ARENALAB_CHROMIUM?{executablePath:process.env.ARENALAB_CHROMIUM}:{})});
 const contexts=[];const pages=[];const errors=[];const report={started:new Date().toISOString(),baseURL:root,journeys:[]};
