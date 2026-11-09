@@ -2,6 +2,9 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 : "${ARENALAB_ADMIN_DSN:?Use the isolated WSL verification database}"
+if [[ -n ${ARENALAB_UID:-} && -n ${ARENALAB_ARTIFACTS:-} ]]; then
+  trap 'chown -R "$ARENALAB_UID:$ARENALAB_GID" bin "$ARENALAB_ARTIFACTS" 2>/dev/null || true' EXIT
+fi
 mkdir -p bin
 go version
 go run ./cmd/course check

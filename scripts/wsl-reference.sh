@@ -14,6 +14,7 @@ docker run --rm --network host \
   -v arenalab-go-build:/root/.cache/go-build \
   -w /src \
   -e GOFLAGS=-buildvcs=false \
+  -e "ARENALAB_UID=$(id -u)" -e "ARENALAB_GID=$(id -g)" \
   -e "ARENALAB_COMMIT=$commit" \
   -e "ARENALAB_ARTIFACTS=/src/$run_dir/reference" \
   -e ARENALAB_REDIS_ADDR=127.0.0.1:16379 \
